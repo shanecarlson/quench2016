@@ -39,7 +39,7 @@ void record_persistence_mass(int par_sim, int par_pic){
 	for(int r=0; r<=L/2; r++)
 		if(PM[r]>0){
 			PMsum+=PM[r];
-			fprintf(a,"%d\t%f\t%.20f\n", r, 2.0*PMsum/P);
+			fprintf(a,"%d\t%.20f\n", r, 2.0*PMsum/P);
 		}
 
 	fprintf(a,"\n\n");
