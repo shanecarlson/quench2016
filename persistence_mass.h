@@ -16,10 +16,12 @@ void persistence_mass_contribution(int i, int j, int PM[]){
 }
 
 void record_persistence_mass(int par_sim, int par_pic){
-	int PM[(int)(L/2)+1]={0}; //r ranges from 0 to L^2/4
+	int PM[(int)(L/2)+1]; //r ranges from 0 to L^2/4
 	double PMsum=0;
 	int P=0;
 
+	for(int r=0; r<=(int)(L/2); r++)
+		PM[r]=0;
 	for(int i=0; i<L; i++)
 		for(int j=0; j<L; j++)
 			if(p[i][j]==0){

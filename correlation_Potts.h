@@ -24,9 +24,12 @@ void record_correlation_fn(int par_sim, int par_pic){
 	double m2=(double)calculate_magnetization(ftc)/(L*L);
 	m2=m2*m2;
 
-	long int corr[(int)(L/2)+1]={0};
-	long int pairs[(int)(L/2)+1]={0};
+	long int corr[(int)(L/2)+1];
+	long int pairs[(int)(L/2)+1];
 	double dcorr;
+
+	for(int r=0; r<=(int)(L/2); r++)
+		corr[r]=pairs[r]=0;
 
 	for(int i=0; i<L; i++)
 		for(int j=0; j<L; j++)
