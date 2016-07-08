@@ -61,13 +61,12 @@ int main(int argc, char* argv[]){
 
 	//initialize_lattice_to_middle(); // !
 	for(int sim=0; sim<samples; sim++){
-
+\
 		fprintf(ticsfile, "sim %d\n", sim+1);
 		printf("sim %d of %d\n", sim+1, samples);
 		 /*
 		P_add=1-exp(-B_c_ising); // !
 		//for(int swp=0; swp<therm || calculate_magnetization()!=0; swp++){ // !
-		for(int swp=0; swp<therm; swp++){ //thermalization for finite T_i
 			wolff_step();
 			if(sim==0){
 				calculate_energy();
@@ -84,11 +83,8 @@ int main(int argc, char* argv[]){
 		// /* 
 
 		reset_persistence_lattice();
-
 		update_all_classes();
-
 		count_all_members();
-
 		set_flip_probabilities();
 
 		blocked_state=0;
