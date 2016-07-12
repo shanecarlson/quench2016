@@ -66,8 +66,8 @@ int main(int argc, char* argv[]){
 	for(int sim=0; sim<samples; sim++){
 
 		fprintf(ticsfile, "sim %d\n", sim+1);
-		printf("sim %d of %d", sim+1, samples);
-		fprintf(terminal, "sim %d of %d", sim+1, samples);
+		printf("sim %d of %d ", sim+1, samples);
+		fprintf(terminal, "sim %d of %d ", sim+1, samples);
 		 /*
 		P_add=1-exp(-B_c_ising); // !
 		//for(int swp=0; swp<therm || calculate_magnetization()!=0; swp++){ // !

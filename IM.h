@@ -57,6 +57,22 @@ void initialize_lattice_up_w_prob(double p){
 			s[i][j] = drand48()<p ? 1 : 0;
 }
 
+void initialize_lattice_random_5050(){
+	int i, j;
+
+	for(i=0;i<=L-1;i++)
+		for(j=0;j<=L-1;j++)
+			s[i][j]=0;
+
+	for(int k=0; k<L*L/2; k++){
+		do{
+			i=(int)(drand48()*L);
+			j=(int)(drand48()*L);
+		}while(s[i][j]==1);
+		s[i][j]=1;
+	}
+}
+
 int calculate_magnetization(){
 	int M=0;
 
