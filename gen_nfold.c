@@ -97,6 +97,7 @@ int main(int argc, char* argv[]){
 		t_ind=0;
 		pic_tic=1;
 		pic=1;
+		max_pics=0;
 
 		printf("simulating...\n");
 		fprintf(terminal, "simulating...\n");
@@ -129,9 +130,9 @@ int main(int argc, char* argv[]){
 				printf("\tpic at %3.3f \n", pic_tic);
 				fprintf(terminal, "\tpic at %3.3f \n", pic_tic);
 				if(sim==0){
-					plot_bool_lattice(s, 128, sim, pic); // !
-					plot_int_lattice(p, 128, sim, pic);
-					plot_int_lattice_01(p, 128, sim, pic);
+					plot_bool_lattice(s, L, sim, pic); // !
+					plot_int_lattice(p, L, sim, pic);
+					plot_int_lattice_01(p, L, sim, pic);
 				}
 				record_correlation_fn(samples, pic);
 				record_persistence_mass(samples, pic);
@@ -149,14 +150,9 @@ int main(int argc, char* argv[]){
 		fprintf(ticsfile, "\n\n");
 
 		if(sim==0){
-			plot_bool_lattice(s, 128, sim, pic); //128x128 windows // !
-			plot_int_lattice(p, 128, sim, pic);
-			plot_int_lattice_01(p, 128, sim, pic);
-			if(L>128){
-				plot_bool_lattice(s, L, sim, pic); //full-sized lattices // !
-				plot_int_lattice(p, L, sim, pic);
-				plot_int_lattice_01(p, L, sim, pic);
-			}
+			plot_bool_lattice(s, L, sim, pic); // !
+			plot_int_lattice(p, L, sim, pic);
+			plot_int_lattice_01(p, L, sim, pic);
 		}
 		if(pic>max_pics)
 			max_pics=pic;
@@ -166,13 +162,14 @@ int main(int argc, char* argv[]){
 	numpicsfile=fopen("num_pics.txt", "w");
 	fprintf(numpicsfile, "%d\n", max_pics-1);
 
+	printf("process took %.2f seconds", (double)(time(NULL) - start));
+	fprintf(terminal, "process took %.2f seconds", (double)(time(NULL) - start));
+
 	fclose(rts);
 	fclose(tts);
 	fclose(ticsfile);
 	fclose(numpicsfile);
-
-	printf("process took %.2f seconds", (double)(time(NULL) - start));
-	fprintf(terminal, "process took %.2f seconds", (double)(time(NULL) - start));
+	fclose(terminal);
 
 	return 0;
 }
