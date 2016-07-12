@@ -6,12 +6,12 @@
 #include <unistd.h>
 #include <time.h>
 
-#include "critical_temperatures.h"
+//#include "critical_temperatures.h"
 #include "parameters.h"
 #include "filenames_T0.h"
 
 #include "IM.h" // !
-#include "Wolff_IM_PBC_sq.h" // !
+//#include "Wolff_IM_PBC_sq.h" // !
 #include "energies_PBC_sq.h"
 #include "domain_size_PBC_sq.h"
 
@@ -66,8 +66,8 @@ int main(int argc, char* argv[]){
 	for(int sim=0; sim<samples; sim++){
 
 		fprintf(ticsfile, "sim %d\n", sim+1);
-		printf("sim %d of %d\n", sim+1, samples);
-		fprintf(terminal, "sim %d of %d\n", sim+1, samples);
+		printf("sim %d of %d", sim+1, samples);
+		fprintf(terminal, "sim %d of %d", sim+1, samples);
 		 /*
 		P_add=1-exp(-B_c_ising); // !
 		//for(int swp=0; swp<therm || calculate_magnetization()!=0; swp++){ // !
@@ -99,8 +99,8 @@ int main(int argc, char* argv[]){
 		pic=1;
 		max_pics=0;
 
-		printf("simulating...\n");
-		fprintf(terminal, "simulating...\n");
+		//printf("simulating...\n");
+		//fprintf(terminal, "simulating...\n");
 		while(tic<max_time && !blocked_state){
 
 			QN=calculate_QN();
@@ -113,7 +113,8 @@ int main(int argc, char* argv[]){
 					tic*=tic_mult;
 					t_ind++;
 				}
-				printf("tic at %3.3f \n", tic);
+				//printf("tic at %3.3f \n", tic);
+				//fprintf(terminal, "tic at %3.3f \n", tic);
 				calculate_energy();
 				fprintf(rts, "%d\t%.20f\t%d\t%.20f\t%.20f\t%.20f\n",
 					t_ind,
@@ -127,8 +128,8 @@ int main(int argc, char* argv[]){
 				t_ind++;
 			}
 			if(t > pic_tic){
-				printf("\tpic at %3.3f \n", pic_tic);
-				fprintf(terminal, "\tpic at %3.3f \n", pic_tic);
+				//printf("\tpic at %3.3f \n", pic_tic);
+				//fprintf(terminal, "\tpic at %3.3f \n", pic_tic);
 				if(sim==0){
 					plot_bool_lattice(s, L, sim, pic); // !
 					plot_int_lattice(p, L, sim, pic);
@@ -143,8 +144,12 @@ int main(int argc, char* argv[]){
 			T0_nfold_step(QN);
 		}
 		if(blocked_state){
-			printf("ended in a blocked state\n");
-			fprintf(terminal, "ended in a blocked state\n");
+			printf("ended in a blocked state at t = %.2f\n", t);
+			fprintf(terminal, "ended in a blocked state at t = %.2f\n", t);
+		}
+		else{
+			printf("ended after max time at t = %.2f\n", t);
+			fprintf(terminal, "ended after max time at t = %.2f\n", t);
 		}
 		fprintf(rts, "\n\n");
 		fprintf(ticsfile, "\n\n");
@@ -162,8 +167,8 @@ int main(int argc, char* argv[]){
 	numpicsfile=fopen("num_pics.txt", "w");
 	fprintf(numpicsfile, "%d\n", max_pics-1);
 
-	printf("process took %.2f seconds", (double)(time(NULL) - start));
-	fprintf(terminal, "process took %.2f seconds", (double)(time(NULL) - start));
+	printf("process took %.2f seconds\n", (double)(time(NULL) - start));
+	fprintf(terminal, "process took %.2f seconds\n", (double)(time(NULL) - start));
 
 	fclose(rts);
 	fclose(tts);
