@@ -25,7 +25,6 @@
 
 #include "print_lattice_T0.h"
 
-
 int main(int argc, char* argv[]){
 
 	time_t start = time(NULL);
@@ -38,6 +37,10 @@ int main(int argc, char* argv[]){
 		printf("there were issues changing to the directory \'%s\'\n", name);
 
 	// /*
+
+	FILE *terminal;
+	terminal=fopen("terminal.txt", "w");
+
 	double QN;
 	double t;
 	double tic;
@@ -61,9 +64,10 @@ int main(int argc, char* argv[]){
 
 	//initialize_lattice_to_middle(); // !
 	for(int sim=0; sim<samples; sim++){
-\
+
 		fprintf(ticsfile, "sim %d\n", sim+1);
 		printf("sim %d of %d\n", sim+1, samples);
+		fprintf(terminal, "sim %d of %d\n", sim+1, samples);
 		 /*
 		P_add=1-exp(-B_c_ising); // !
 		//for(int swp=0; swp<therm || calculate_magnetization()!=0; swp++){ // !
@@ -95,6 +99,7 @@ int main(int argc, char* argv[]){
 		pic=1;
 
 		printf("simulating...\n");
+		fprintf(terminal, "simulating...\n");
 		while(tic<max_time && !blocked_state){
 
 			QN=calculate_QN();
@@ -103,6 +108,7 @@ int main(int argc, char* argv[]){
 			if(t > tic){
 				while(t > tic*tic_mult){
 					printf("tic at %f skipped\n", tic);
+					fprintf(terminal, "tic at %f skipped\n", tic);
 					tic*=tic_mult;
 					t_ind++;
 				}
@@ -121,6 +127,7 @@ int main(int argc, char* argv[]){
 			}
 			if(t > pic_tic){
 				printf("\tpic at %3.3f \n", pic_tic);
+				fprintf(terminal, "\tpic at %3.3f \n", pic_tic);
 				if(sim==0){
 					plot_bool_lattice(s, 128, sim, pic); // !
 					plot_int_lattice(p, 128, sim, pic);
@@ -134,8 +141,10 @@ int main(int argc, char* argv[]){
 			}
 			T0_nfold_step(QN);
 		}
-		if(blocked_state)
+		if(blocked_state){
 			printf("ended in a blocked state\n");
+			fprintf(terminal, "ended in a blocked state\n");
+		}
 		fprintf(rts, "\n\n");
 		fprintf(ticsfile, "\n\n");
 
@@ -163,5 +172,7 @@ int main(int argc, char* argv[]){
 	fclose(numpicsfile);
 
 	printf("process took %.2f seconds", (double)(time(NULL) - start));
+	fprintf(terminal, "process took %.2f seconds", (double)(time(NULL) - start));
+
 	return 0;
 }
