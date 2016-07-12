@@ -70,6 +70,8 @@ int main(int argc, char* argv[]){
 		fprintf(ticsfile, "sim %d\n", sim+1);
 		printf("sim %d of %d ", sim+1, samples);
 		fprintf(terminal, "sim %d of %d ", sim+1, samples);
+
+		initialize_lattice_random_m0();
 		 /*
 		P_add=1-exp(-B_c_ising); // !
 		//for(int swp=0; swp<therm || calculate_magnetization()!=0; swp++){ // !
@@ -82,7 +84,6 @@ int main(int argc, char* argv[]){
 		printf("1\n");
 
 		// */
-		initialize_lattice_random_m0();
 		record_correlation_fn(samples, 0);
 		if(sim==0)
 			plot_bool_lattice(s, L, 0, 0); // !
@@ -117,13 +118,14 @@ int main(int argc, char* argv[]){
 				//printf("tic at %3.3f \n", tic);
 				//fprintf(terminal, "tic at %3.3f \n", tic);
 				calculate_energy();
-				fprintf(rts, "%d\t%.20f\t%d\t%.20f\t%.20f\t%.20f\n",
+				fprintf(rts, "%d\t%.20f\t%d\t%.20f\t%.20f\t%.20f\t%.20f\n",
 					t_ind,
 					tic,
 					E,
 					calculate_avg_domain_size(),
 					(double)calculate_persistence()/(L*L),
-					(double)members[0]/(L*L)
+					(double)members[0]/(L*L),
+					(double)calculate_magnetization()/(L*L) // !
 				); //timeseries
 				tic*=tic_mult;
 				t_ind++;
