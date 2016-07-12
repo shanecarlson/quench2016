@@ -48,6 +48,31 @@ void initialize_lattice_to_middle(){
 			s[i][j]=color;
 }
 
+void initialize_lattice_random_m0(){
+	int startpop=(int)(L*L/(float)q);
+	int pop[q];
+
+	for(int clr=0; clr<q; clr++)
+		pop[clr]=startpop;
+
+	for(int clr=0; clr<q && startpop*q+clr+1<L*L; clr++)
+		pop[clr]++;
+
+	for(int i=0;i<L;i++)
+		for(int j=0;j<L;j++)
+			s[i][j]=0;
+
+	for(int clr=1; clr<q; clr++){
+		for(int k=0; k<pop[clr]; k++){
+			do{
+				i=(int)(drand48()*L);
+				j=(int)(drand48()*L);
+			}while(s[i][j]!=0);
+			s[i][j]=clr;
+		}
+	}
+}
+
 void initialize_lattice_random(){
 
 	for(int i=0;i<L;i++)

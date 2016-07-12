@@ -57,7 +57,7 @@ void initialize_lattice_up_w_prob(double p){
 			s[i][j] = drand48()<p ? 1 : 0;
 }
 
-void initialize_lattice_random_5050(){
+void initialize_lattice_random_m0(){
 	int i, j;
 
 	for(i=0;i<=L-1;i++)

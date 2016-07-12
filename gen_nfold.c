@@ -62,6 +62,8 @@ int main(int argc, char* argv[]){
 
 	srand48(lrand48());
 
+	set_flip_probabilities();
+
 	//initialize_lattice_to_middle(); // !
 	for(int sim=0; sim<samples; sim++){
 
@@ -80,16 +82,15 @@ int main(int argc, char* argv[]){
 		printf("1\n");
 
 		// */
-		initialize_lattice_up_w_prob(0.5);
+		initialize_lattice_random_m0();
 		record_correlation_fn(samples, 0);
 		if(sim==0)
-			plot_bool_lattice(s, 128, 0, 0); // !
+			plot_bool_lattice(s, L, 0, 0); // !
 		// /* 
 
 		reset_persistence_lattice();
 		update_all_classes();
 		count_all_members();
-		set_flip_probabilities();
 
 		blocked_state=0;
 		t=0.0;
