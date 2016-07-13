@@ -48,7 +48,7 @@ int main(int argc, char* argv[]){
 
 	double pic_tic; //actual time when the lattice shots are taken
 	int pic, max_pics=0; //indexes the lattice shots for file handling
-	double pic_tic_mult=7;
+	double pic_tic_mult=4; //multiplier for pics
 
 	FILE *rts;
 	rts=fopen("rts.txt", "w"); //raw timeseries
