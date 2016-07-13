@@ -35,8 +35,10 @@ int main(int argc, char* argv[]){
 	char name[64]="dir_";
 
 	spins_foldername_T0(name, q, L);
-	if(chdir(name)==-1)
-		printf("there were issues changing to the directory \'%s\'\n", name);
+	if(chdir(name)==-1){
+		printf("there were issues changing to the directory \'%s\'\n; stopping combine process\n", name);
+		return 0;
+	}
 
 	FILE *a;
 	a=fopen("num_pics.txt", "r");
@@ -50,6 +52,7 @@ int main(int argc, char* argv[]){
 
 	int r; //distance
 	double iO; //input variable
+
 	for(r=0; r<rmax; r++){
 		data_here[r]=0;
 		for(int pic=0; pic<num_pics; pic++){
@@ -76,8 +79,8 @@ int main(int argc, char* argv[]){
 		for(r=0; r<rmax; r++)
 			if(trials[pic][r]>0){
 				data_here[r]=1;
-				O[pic][r]/=trials[pic][r]; //normalizes quantity
-		}
+				O[pic][r]/=(double)trials[pic][r]; //normalizes quantity
+			}
 
 		rewind(a);
 
@@ -90,7 +93,9 @@ int main(int argc, char* argv[]){
 
 		for(r=0; r<rmax; r++)
 			if(trials[pic][r]>1)
-				vO[pic][r]/=trials[pic][r]-1; //normalizes quantity's variance
+				vO[pic][r]/=(double)trials[pic][r]-1.0; //normalizes quantity's variance
+
+		fclose(a);
 	}
 
 	sprintf(name, "%s", type_name);
@@ -101,16 +106,16 @@ int main(int argc, char* argv[]){
 
 	r=0;
 	while(r<rmax){
-
 		fprintf(w, "%d\t", r);
 		for(int pic=starting_pic; pic<num_pics; pic++)
 			fprintf(w, "%.8f\t%.8f\t", O[pic][r], sqrt(vO[pic][r]));
 		fprintf(w, "\n");
-
-		while(!data_here[r])
+		
+		do{
 			r++;
+		}while(!data_here[r]);
 	}
-	fcloseall();
+	fclose(w);
 
 	return 0;
 }

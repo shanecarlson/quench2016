@@ -99,7 +99,6 @@ int main(int argc, char* argv[]){
 		t_ind=0;
 		pic_tic=1;
 		pic=1;
-		max_pics=0;
 
 		//printf("simulating...\n");
 		//fprintf(terminal, "simulating...\n");
@@ -168,7 +167,7 @@ int main(int argc, char* argv[]){
 	}
 	FILE *numpicsfile;
 	numpicsfile=fopen("num_pics.txt", "w");
-	fprintf(numpicsfile, "%d\n", max_pics-1);
+	fprintf(numpicsfile, "%d\n", max_pics);
 
 	printf("process took %.2f seconds\n", (double)(time(NULL) - start));
 	fprintf(terminal, "process took %.2f seconds\n", (double)(time(NULL) - start));

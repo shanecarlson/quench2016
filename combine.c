@@ -37,8 +37,10 @@ int main(int argc, char* argv[]){
 	char name[64]="dir_";
 
 	spins_foldername_T0(name, q, L);
-	if(chdir(name)==-1)
-		printf("there were issues changing to the directory \'%s\'\n", name);
+	if(chdir(name)==-1){
+		printf("there were issues changing to the directory \'%s\'; stopping combine process\n", name);
+		return 0;
+	}
 
 	double time[N_pts];
 	double l[N_pts];
