@@ -14,7 +14,7 @@ int main(int argc, char* argv[]){
 	char type_name[64];
 	int starting_pic;
 
-	printf("enter 'm' for persistence mass, 'c' for correlation length: ");
+	printf("Enter 'c' for correlation length, 'm' for persistence mass: ");
 	chooser=getchar();
 	if(chooser=='m'){
 		sprintf(type_name, "mass_");
@@ -25,7 +25,7 @@ int main(int argc, char* argv[]){
 		starting_pic=0;
 	}
 	else{
-		printf("invalid entry\n");
+		printf("invalid entry, try again\n");
 		return 0;
 	}
 
@@ -99,8 +99,7 @@ int main(int argc, char* argv[]){
 	}
 
 	sprintf(name, "%s", type_name);
-	strcat(name, "avg_");
-	spins_filename_instant_T0(name, L, samples, num_pics);
+	strcat(name, "avg.txt");
 	FILE *w;
 	w=fopen(name, "w"); //combined timeseries
 

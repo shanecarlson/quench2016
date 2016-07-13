@@ -63,7 +63,7 @@ int main(int argc, char* argv[]){
 	t=fopen("rts.txt", "r"); //raw timeseries
 
 	while(fscanf(t, "%d", &t_ind)==1){
-		if(fscanf(t, "%lf%*d%lf%lf%*f", &it, &il, &iP)==3){
+		if(fscanf(t, "%lf%*d%lf%lf%*f%*f", &it, &il, &iP)==3){
 			if(!match(time[t_ind], it))
 				printf("non-matching times\n");
 			trials[t_ind]++;
@@ -82,7 +82,7 @@ int main(int argc, char* argv[]){
 	rewind(t);
 
 	while(fscanf(t, "%d", &t_ind)==1){
-		if(fscanf(t, "%*f%*d%lf%lf%*f", &il, &iP)==2){
+		if(fscanf(t, "%*f%*d%lf%lf%*f%*f", &il, &iP)==2){
 			vl[t_ind]+=(l[t_ind]-il)*(l[t_ind]-il);
 			vP[t_ind]+=(P[t_ind]-iP)*(P[t_ind]-iP);
 		}
