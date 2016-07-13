@@ -90,6 +90,8 @@ int main(int argc, char* argv[]){
 			printf("problem fetching data in loop 2\n");
 	}
 
+	fclose(t);
+
 	for(t_ind=0; t_ind<N_pts; t_ind++){
 		vl[t_ind]/=(trials[t_ind]-1);
 		vP[t_ind]/=(trials[t_ind]-1);
@@ -106,7 +108,7 @@ int main(int argc, char* argv[]){
 			P[t_ind],
 			sqrt(vP[t_ind])
 			);
-	fcloseall();
+	fclose(w);
 
 	return 0;
 }
