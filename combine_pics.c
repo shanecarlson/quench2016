@@ -14,10 +14,19 @@ int main(int argc, char* argv[]){
 	char type_name[64];
 	int starting_pic;
 
-	printf("Enter 'c' for correlation length, 'm' for persistence mass: ");
+	printf("Enter 'c' for correlation length, 'm' for persistence mass,\n");
+	printf("'d' for persistence correlation, 'f' for normalized persistence correlation: ");
 	chooser=getchar();
 	if(chooser=='m'){
 		sprintf(type_name, "mass_");
+		starting_pic=1;
+	}
+	else if(chooser=='d'){
+		sprintf(type_name, "pcorr_");
+		starting_pic=1;
+	}
+	else if(chooser=='f'){
+		sprintf(type_name, "f_");
 		starting_pic=1;
 	}
 	else if(chooser=='c'){
@@ -109,7 +118,7 @@ int main(int argc, char* argv[]){
 		for(int pic=starting_pic; pic<num_pics; pic++)
 			fprintf(w, "%.8f\t%.8f\t", O[pic][r], sqrt(vO[pic][r]));
 		fprintf(w, "\n");
-		
+
 		do{
 			r++;
 		}while(!data_here[r]);

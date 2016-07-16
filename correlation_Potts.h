@@ -3,20 +3,20 @@
 //by Shane Carlson
 
 void correlation(int i, int j, int ftc, long int corr[], long int pairs[]){
+	int r_index;
 
-	for(int di=0; di<=L/2; di++){
+	for(int di=1; di<L/2; di++){
 		corr[di] += (s[i][j]==ftc)^(s[wrap(i,di)][j]==ftc) ? -1 : 1;
 		pairs[di]++;
 	}
 
-	for(int di=-L/2; di<=L/2; di++){
-		for(int dj=1; dj<=L/2; dj++){
-			if(di*di+dj*dj<=L*L/4){
-				corr[(int)sqrt(di*di+dj*dj)] += (s[i][j]==ftc)^(s[wrap(i,di)][wrap(j,dj)]==ftc) ? -1 : 1;
-				pairs[(int)sqrt(di*di+dj*dj)]++;
+	for(int di=-L/2+1; di<L/2; di++)
+		for(int dj=1; dj<L/2; dj++)
+			if(di*di+dj*dj<L*L/4){
+				r_index=(int)(sqrt(di*di+dj*dj)-0.5)+1;
+				corr[r_index] += (s[i][j]==ftc)^(s[wrap(i,di)][wrap(j,dj)]==ftc) ? -1 : 1;
+				pairs[r_index]++;
 			}
-		}
-	}
 }
 
 void record_correlation_fn(int par_sim, int par_pic){
@@ -42,7 +42,8 @@ void record_correlation_fn(int par_sim, int par_pic){
 	FILE *a;
 	a=fopen(name, "a");
 
-	for(int r=0; r<=(int)(L/2); r++){
+	fprintf(a,"%d\t%.20f\n", 0, 1.0);
+	for(int r=1; r<=L/2; r++){
 		if(pairs[r]>0){
 			dcorr=((double)corr[r]/pairs[r]-m2)/(1.0-m2);
 			fprintf(a,"%d\t%.20f\n", r, dcorr);

@@ -16,7 +16,7 @@
 #include "domain_size_PBC_sq.h"
 
 #include "persistence.h"
-#include "persistence_mass.h"
+#include "persistence_corr.h"
 #include "correlation_IM.h" // !
 
 #include "nfold_IM_Glauber.h" // !
@@ -42,9 +42,10 @@ int main(int argc, char* argv[]){
 	terminal=fopen("terminal.txt", "w");
 
 	double QN;
-	double t;
-	double tic;
-	int t_ind;
+	double t; //time
+	double tic; //time where data (persistence, domain size) is gathered
+	int t_ind; //indexs the tics
+	int M; //magnetization
 
 	double pic_tic; //actual time when the lattice shots are taken
 	int pic, max_pics=0; //indexes the lattice shots for file handling
@@ -81,8 +82,6 @@ int main(int argc, char* argv[]){
 				fprintf(tts, "%d\t%f\n", E, calculate_avg_domain_size());
 			}
 		}
-		printf("1\n");
-
 		// */
 		record_correlation_fn(samples, 0);
 		if(sim==0)
@@ -138,21 +137,30 @@ int main(int argc, char* argv[]){
 					plot_int_lattice_01(p, L, sim, pic);
 				}
 				record_correlation_fn(samples, pic);
-				record_persistence_mass(samples, pic);
+				record_persistence_corr(samples, pic);
 				fprintf(ticsfile, "%d\t%.20f\n", pic, pic_tic);
 				pic_tic*=pic_tic_mult;
 				pic++;
 			}
 			T0_nfold_step(QN);
 		}
+
 		if(blocked_state){
-			printf("ended in a blocked state at t = %.2f\n", t);
-			fprintf(terminal, "ended in a blocked state at t = %.2f\n", t);
+			M=calculate_magnetization();
+			if(M==L*L || M==-L*L){
+				printf("ended at a global minimum at t = %.2f\n", t);
+				fprintf(terminal, "ended at a global minimum at t = %.2f\n", t);
+			}
+			else{
+				printf("ended in a blocked state at t = %.2f\n", t);
+				fprintf(terminal, "ended in a blocked state at t = %.2f\n", t);
+			}
 		}
 		else{
 			printf("ended after max time at t = %.2f\n", t);
 			fprintf(terminal, "ended after max time at t = %.2f\n", t);
 		}
+
 		fprintf(rts, "\n\n");
 		fprintf(ticsfile, "\n\n");
 
