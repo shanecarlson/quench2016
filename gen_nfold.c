@@ -6,12 +6,12 @@
 #include <unistd.h>
 #include <time.h>
 
-//#include "critical_temperatures.h"
+#include "critical_temperatures.h"
 #include "parameters.h"
 #include "filenames_T0.h"
 
 #include "IM.h" // !
-//#include "Wolff_IM_PBC_sq.h" // !
+#include "Wolff_IM_PBC_sq.h" // !
 #include "energies_PBC_sq.h"
 #include "domain_size_PBC_sq.h"
 

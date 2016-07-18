@@ -32,7 +32,7 @@ void record_persistence_corr(int par_sim, int par_pic){
 	for(int i=0; i<L; i++)
 		for(int j=0; j<L; j++)
 			if(p[i][j]==0){
-				persistence_corr(i, j, D, vol);
+				persistence_corr(i, j, D, vol); //note: now vol ~ P
 				P++;
 			}
 
@@ -51,7 +51,7 @@ void record_persistence_corr(int par_sim, int par_pic){
 	FILE *b;
 	b=fopen(name2, "a");
 
-	fprintf(a,"%d\t%d\n", 0, 1.0);
+	fprintf(a,"%d\t%d\n", 0, 1);
 	fprintf(b,"%d\t%.20f\n", 0, 1.0/P);
 	for(int r=1; r<=L/2; r++){
 		fprintf(a,"%d\t%.20f\n", r, (double)D[r]/vol[r]);
