@@ -31,10 +31,14 @@ int main(int argc, char* argv[]){
 	char name[64]="dir_";
 
 	spins_foldername_T0(name, q, L);
-	if(mkdir(name, S_IRWXU)==-1)
-		printf("there were issues making the directory \'%s\'\n", name);
-	if(chdir(name)==-1)
+	if(mkdir(name, S_IRWXU)==-1){
+		printf("there were issues making the directory \'%s\', try again\n", name);
+		return 0;
+	}
+	if(chdir(name)==-1){
 		printf("there were issues changing to the directory \'%s\'\n", name);
+		return 0;
+	}
 
 	// /*
 
@@ -44,7 +48,7 @@ int main(int argc, char* argv[]){
 	double QN;
 	double t; //time
 	double tic; //time where data (persistence, domain size) is gathered
-	int t_ind; //indexs the tics
+	int t_ind; //indexes the tics
 	int M; //magnetization
 
 	double pic_tic; //actual time when the lattice shots are taken
@@ -73,20 +77,19 @@ int main(int argc, char* argv[]){
 		fprintf(terminal, "sim %d of %d ", sim+1, samples);
 
 		initialize_lattice_random_m0();
-		 /*
-		P_add=1-exp(-B_c_ising); // !
-		//for(int swp=0; swp<therm || calculate_magnetization()!=0; swp++){ // !
+		// /*
+		P_add=1-exp(-2*Bc_PSGC_q2L256); // !
+		for(int swp=0; swp<therm || calculate_magnetization()!=0; swp++){ // !
 			wolff_step();
 			if(sim==0){
 				calculate_energy();
 				fprintf(tts, "%d\t%f\n", E, calculate_avg_domain_size());
 			}
 		}
-		// */
+
 		record_correlation_fn(samples, 0);
 		if(sim==0)
 			plot_bool_lattice(s, L, 0, 0); // !
-		// /* 
 
 		reset_persistence_lattice();
 		update_all_classes();
