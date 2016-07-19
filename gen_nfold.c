@@ -58,8 +58,6 @@ int main(int argc, char* argv[]){
 	FILE *rts;
 	rts=fopen("rts.txt", "w"); //raw timeseries
 
-	FILE *ticsfile;
-	ticsfile=fopen("tics_key.txt", "w");
 	// */
 
 	FILE *tts;
@@ -72,7 +70,6 @@ int main(int argc, char* argv[]){
 	//initialize_lattice_to_middle(); // !
 	for(int sim=0; sim<samples; sim++){
 
-		fprintf(ticsfile, "sim %d\n", sim+1);
 		printf("sim %d of %d ", sim+1, samples);
 		fprintf(terminal, "sim %d of %d ", sim+1, samples);
 
@@ -141,7 +138,6 @@ int main(int argc, char* argv[]){
 				}
 				record_correlation_fn(samples, pic);
 				record_persistence_corr(samples, pic);
-				fprintf(ticsfile, "%d\t%.20f\n", pic, pic_tic);
 				pic_tic*=pic_tic_mult;
 				pic++;
 			}
@@ -165,7 +161,6 @@ int main(int argc, char* argv[]){
 		}
 
 		fprintf(rts, "\n\n");
-		fprintf(ticsfile, "\n\n");
 
 		if(sim==0){
 			plot_bool_lattice(s, L, sim, pic); // !
@@ -176,17 +171,28 @@ int main(int argc, char* argv[]){
 			max_pics=pic;
 	// */
 	}
+
 	FILE *numpicsfile;
 	numpicsfile=fopen("num_pics.txt", "w");
 	fprintf(numpicsfile, "%d\n", max_pics);
+	fclose(numpicsfile);
+
+	FILE *ticsfile;
+	ticsfile=fopen("tics_key.txt", "w");
+	pic=1;
+	pic_tic=1;
+	while(pic<=max_pics){
+		fprintf(ticsfile, "%d\t%.20f\n", pic, pic_tic);
+		pic_tic*=pic_tic_mult;
+		pic++;
+	}
+	fclose(ticsfile);
 
 	printf("process took %.2f seconds\n", (double)(time(NULL) - start));
 	fprintf(terminal, "process took %.2f seconds\n", (double)(time(NULL) - start));
 
 	fclose(rts);
 	fclose(tts);
-	fclose(ticsfile);
-	fclose(numpicsfile);
 	fclose(terminal);
 
 	return 0;

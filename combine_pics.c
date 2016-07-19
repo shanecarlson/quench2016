@@ -58,6 +58,11 @@ int main(int argc, char* argv[]){
 	double vO[num_pics][rmax]; //variance of the above observable
 	int trials[num_pics][rmax]; //number of data that are combined
 	bool data_here[rmax];
+	double lp[num_pics]; //characteristic length of persistence pattern - only for use in calculating 'f'
+
+	if(chooser=='f')
+		for(int pic=0; pic<num_pics; pic++)
+			lp[pic]=0.0;
 
 	int r; //distance
 	double iO; //input variable
@@ -89,6 +94,9 @@ int main(int argc, char* argv[]){
 			if(trials[pic][r]>0){
 				data_here[r]=1;
 				O[pic][r]/=(double)trials[pic][r]; //normalizes quantity
+				if(chooser=='f' && lp[pic]==0.0)
+					if(O[pic][r]<1 && r>0)
+						lp[pic]=(1.0-O[pic][r])/(O[pic][r]-O[pic][r-1])+r;
 			}
 
 		rewind(a);
@@ -124,6 +132,19 @@ int main(int argc, char* argv[]){
 		}while(!data_here[r]);
 	}
 	fclose(w);
+
+	if(chooser=='f'){
+		w=fopen("lp.cfg","w");
+		for(int pic=starting_pic; pic<num_pics; pic++)
+			fprintf(w, "lp%d=%.6f\n", pic, lp[pic]);
+		fclose(w);
+		a=fopen("tics_key.txt", "r");
+		w=fopen("lp.txt","w");
+		for(int pic=starting_pic; pic<num_pics; pic++)
+			if(fscanf(a, "%*d%lf", &iO)==1)
+				fprintf(w, "%.6f\t%.6f\n", iO, lp[pic]);
+		fclose(w);
+	}
 
 	return 0;
 }
