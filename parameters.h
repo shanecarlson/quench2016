@@ -2,10 +2,10 @@
 int q=q_max; //number of states of the Potts model
 #define L_max 256 //MAX number of spins along a side; for array init
 int L=L_max; //number of spins along a side
-#define Nb 100 //number of "blocking" blocks
+#define Nb 1000 //number of "blocking" blocks
 #define nb 1000 //blocking block-length
 #define N (Nb*nb) //number of sweeps
-#define samples 200 //number of temperatures we simulate over
+#define samples 50 //number of temperatures we simulate over
 #define therm 10000 //thermalization (in sweeps)
 
 #define B_c_potts (log(1+sqrt(q))) //$\beta_c$ for Potts model
@@ -18,4 +18,4 @@ int L=L_max; //number of spins along a side
 #define tic_mult 1.2 //tic multiplier: tic$_{i+1}=$ tic$_{i}\cdot$ tic_mult
 #define max_time 30000 //maximum time
 
-char headersID[8]="PSGI"; //<BOUNDARY><LATTICE><ALG><T_i>_
+char headersID[8]="PSGC"; //<BOUNDARY><LATTICE><ALG><T_i>_
