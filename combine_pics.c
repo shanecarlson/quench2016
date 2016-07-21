@@ -95,8 +95,8 @@ int main(int argc, char* argv[]){
 				data_here[r]=1;
 				O[pic][r]/=(double)trials[pic][r]; //normalizes quantity
 				if(chooser=='f' && lp[pic]==0.0)
-					if(O[pic][r]<1 && r>0)
-						lp[pic]=(1.0-O[pic][r])/(O[pic][r]-O[pic][r-1])+r;
+					if(O[pic][r]<1.1 && r>0)
+						lp[pic]=(1.1-O[pic][r])/(O[pic][r]-O[pic][r-1])+r;
 			}
 
 		rewind(a);
