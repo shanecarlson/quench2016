@@ -36,19 +36,28 @@ void record_correlation_fn(int par_sim, int par_pic){
 
 	char name[64]; //filename for output
 
-	sprintf(name, "corr_");
+	sprintf(name, "corr_raw_");
 	spins_filename_instant_T0(name, L, par_sim, par_pic);
 	FILE *a;
 	a=fopen(name, "a");
 
+	sprintf(name, "corr_sub_");
+	spins_filename_instant_T0(name, L, par_sim, par_pic);
+	FILE *b;
+	b=fopen(name, "a");
+
 	fprintf(a,"%d\t%.20f\n", 0, 1.0);
 	for(int r=1; r<=L/2; r++){
 		if(pairs[r]>0){
-			dcorr=((double)corr[r]/pairs[r]-m2)/(1.0-m2);
+			dcorr=(double)corr[r]/pairs[r];
 			fprintf(a,"%d\t%.20f\n", r, dcorr);
+			fprintf(b,"%d\t%.20f\n", r, (dcorr-m2)/(1.0-m2));
 		}
 	}
 
 	fprintf(a,"\n\n");
+	fprintf(b,"\n\n");
+
 	fclose(a);
+	fclose(b);
 }

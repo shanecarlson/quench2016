@@ -14,8 +14,8 @@ int main(int argc, char* argv[]){
 	char type_name[64];
 	int starting_pic;
 
-	printf("Enter 'c' for correlation length, 'm' for persistence mass,\n");
-	printf("'d' for persistence correlation, 'f' for normalized persistence correlation: ");
+	printf("Enter 'c' for correlation length raw,\n'g' with magnetization subtracted\n'm' for persistence mass,\n");
+	printf("'d' for persistence correlation,\n'f' for normalized persistence correlation: ");
 	chooser=getchar();
 	if(chooser=='m'){
 		sprintf(type_name, "mass_");
@@ -30,7 +30,11 @@ int main(int argc, char* argv[]){
 		starting_pic=1;
 	}
 	else if(chooser=='c'){
-		sprintf(type_name, "corr_");
+		sprintf(type_name, "corr_raw_");
+		starting_pic=0;
+	}
+	else if(chooser=='g'){
+		sprintf(type_name, "corr_sub_");
 		starting_pic=0;
 	}
 	else{
@@ -95,8 +99,8 @@ int main(int argc, char* argv[]){
 				data_here[r]=1;
 				O[pic][r]/=(double)trials[pic][r]; //normalizes quantity
 				if(chooser=='f' && lp[pic]==0.0)
-					if(O[pic][r]<1.1 && r>0)
-						lp[pic]=(1.1-O[pic][r])/(O[pic][r]-O[pic][r-1])+r;
+					if(O[pic][r]<1.03 && r>0)
+						lp[pic]=(1.03-O[pic][r])/(O[pic][r]-O[pic][r-1])+r;
 			}
 
 		rewind(a);

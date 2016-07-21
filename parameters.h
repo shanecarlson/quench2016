@@ -18,4 +18,4 @@ int L=L_max; //number of spins along a side
 #define tic_mult 1.2 //tic multiplier: tic$_{i+1}=$ tic$_{i}\cdot$ tic_mult
 #define max_time 30000 //maximum time
 
-char headersID[8]="PSGC"; //<BOUNDARY><LATTICE><ALG><T_i>_
+char headersID[8]="PSG96C"; //<BOUNDARY><LATTICE><ALG><T_i>_
