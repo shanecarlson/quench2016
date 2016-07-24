@@ -83,6 +83,10 @@ int main(int argc, char* argv[]){
 				fprintf(tts, "%d\t%f\n", E, calculate_avg_domain_size());
 			}
 		}
+
+		printf("thermalization complete\n");
+		fprintf(terminal, "thermalization complete\n");
+
 		// */
 
 		record_correlation_fn(samples, 0);
