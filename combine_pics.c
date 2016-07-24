@@ -14,7 +14,7 @@ int main(int argc, char* argv[]){
 	char type_name[64];
 	int starting_pic;
 
-	printf("Enter 'c' for correlation length raw,\n'g' with magnetization subtracted\n'm' for persistence mass,\n");
+	printf("Enter 'c' for correlation length raw,\n'g' with magnetization subtracted,\n'm' for persistence mass,\n");
 	printf("'d' for persistence correlation,\n'f' for normalized persistence correlation: ");
 	chooser=getchar();
 	if(chooser=='m'){
@@ -43,7 +43,7 @@ int main(int argc, char* argv[]){
 	}
 
 	const int rmax=L/2+1; //max radius plus 1
-	const int num_pics;
+	const int num_pics=1;
 
 	char name[64]="dir_";
 
@@ -54,9 +54,12 @@ int main(int argc, char* argv[]){
 	}
 
 	FILE *a;
-	a=fopen("num_pics.txt", "r");
-	fscanf(a, "%d", &num_pics);
-	fclose(a);
+
+	if(chooser!='c' && chooser!='g'){
+		a=fopen("num_pics.txt", "r");
+		fscanf(a, "%d", &num_pics);
+		fclose(a);
+	}
 
 	double O[num_pics][rmax]; //recorded observable
 	double vO[num_pics][rmax]; //variance of the above observable
@@ -99,8 +102,8 @@ int main(int argc, char* argv[]){
 				data_here[r]=1;
 				O[pic][r]/=(double)trials[pic][r]; //normalizes quantity
 				if(chooser=='f' && lp[pic]==0.0)
-					if(O[pic][r]<1.03 && r>0)
-						lp[pic]=(1.03-O[pic][r])/(O[pic][r]-O[pic][r-1])+r;
+					if(O[pic][r]<1.2 && r>0)
+						lp[pic]=(1.2-O[pic][r])/(O[pic][r]-O[pic][r-1])+r;
 			}
 
 		rewind(a);
@@ -117,6 +120,7 @@ int main(int argc, char* argv[]){
 				vO[pic][r]/=(double)trials[pic][r]-1.0; //normalizes quantity's variance
 
 		fclose(a);
+
 	}
 
 	sprintf(name, "%s", type_name);

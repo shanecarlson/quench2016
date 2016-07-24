@@ -67,15 +67,15 @@ int main(int argc, char* argv[]){
 
 	set_flip_probabilities();
 
-	//initialize_lattice_to_middle(); // !
 	for(int sim=0; sim<samples; sim++){
 
 		printf("sim %d of %d ", sim+1, samples);
 		fprintf(terminal, "sim %d of %d ", sim+1, samples);
 
-		initialize_lattice_random_m0();
+		//initialize_lattice_random_m0();
 		// /*
-		P_add=1-exp(-2*Bc_PSGC_q2L256); // !
+		initialize_lattice_up_w_prob(0.8); // !
+		P_add=1-exp(-2*B_c_ising); // !
 		for(int swp=0; swp<therm || calculate_magnetization()!=0; swp++){ // !
 			wolff_step();
 			if(sim==0){
@@ -83,6 +83,7 @@ int main(int argc, char* argv[]){
 				fprintf(tts, "%d\t%f\n", E, calculate_avg_domain_size());
 			}
 		}
+		// */
 
 		record_correlation_fn(samples, 0);
 		if(sim==0)
@@ -136,7 +137,7 @@ int main(int argc, char* argv[]){
 					plot_int_lattice(p, L, sim, pic);
 					plot_int_lattice_01(p, L, sim, pic);
 				}
-				record_correlation_fn(samples, pic);
+				// record_correlation_fn(samples, pic);
 				record_persistence_corr(samples, pic);
 				pic_tic*=pic_tic_mult;
 				pic++;
@@ -181,7 +182,7 @@ int main(int argc, char* argv[]){
 	ticsfile=fopen("tics_key.txt", "w");
 	pic=1;
 	pic_tic=1;
-	while(pic<=max_pics){
+	while(pic<max_pics){
 		fprintf(ticsfile, "%d\t%.20f\n", pic, pic_tic);
 		pic_tic*=pic_tic_mult;
 		pic++;
