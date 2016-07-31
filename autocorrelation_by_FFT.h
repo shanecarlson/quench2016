@@ -32,10 +32,10 @@
 
 #define OP2() {corr[i+L/2][j+L/2]=data[kx]; kx+=2;}
 
-void autocorrelation_FFT(double data[], double C[], double S[], double C0, double C1){
+void autocorrelation_FFT(float data[], double C[], double S[], double C0, double C1){
 
-	double stru[L][L]; //structure factor as a function of wavevector
-	double corr[L][L]; //correlation as a function of relative position vector
+	float stru[L][L]; //structure factor as a function of wavevector
+	float corr[L][L]; //correlation as a function of relative position vector
 	unsigned int vol[(int)(L/2)]; //total number of sites counted for r
 	int kx=0, r_index; //'data' index
 	unsigned int nn[2]={L,L};

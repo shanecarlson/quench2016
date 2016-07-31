@@ -10,7 +10,7 @@
 #include "filenames_T0.h"
 
 #include "IM.h" // !
-#include "Wolff_IM_PBC_sq.h" // !
+//#include "Wolff_IM_PBC_sq.h" // !
 #include "energies_PBC_sq.h"
 #include "domain_size_PBC_sq.h"
 
@@ -20,7 +20,6 @@
 #include "autocorrelation_by_FFT.h"
 #include "persistence_corr_FFT.h"
 #include "correlation_IM_FFT.h" // !
-
 
 #include "nfold_IM_Glauber.h" // !
 #include "class_PBC_sq.h"

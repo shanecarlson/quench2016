@@ -6,7 +6,7 @@ void record_correlation_fn(int par_sim, int par_pic){
 	double m2=(double)calculate_magnetization()/((double)L*L); m2*=m2;
 	double C[(int)(L/2)];
 	double S[(int)(L/2)];
-	double data[2*L*L]; //array that's transformed by FFT function 'fourn' 
+	float data[2*L*L]; //array that's transformed by FFT function 'fourn' 
 	int kx=0; //'data' index
 
 	for(int j=0; j<L; j++){

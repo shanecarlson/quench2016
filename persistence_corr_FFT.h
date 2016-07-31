@@ -6,7 +6,7 @@ void record_persistence_corr(int par_sim, int par_pic){
 	double P=(double)calculate_persistence()/((double)L*L);
 	double C[(int)(L/2)]; //persistence correlation fn C(r)
 	double S[(int)(L/2)]; //structure factor of persistence lattice S(r)
-	double data[2*L*L]; //array that's transformed by FFT function 'fourn' 
+	float data[2*L*L]; //array that's transformed by FFT function 'fourn' 
 	int kx=0; //'data' index
 
 	for(int j=0; j<L; j++){
