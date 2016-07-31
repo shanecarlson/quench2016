@@ -38,7 +38,7 @@ void autocorrelation_FFT(double data[], double C[], double S[], double C0, doubl
 	double corr[L][L]; //correlation as a function of relative position vector
 	unsigned int vol[(int)(L/2)]; //total number of sites counted for r
 	int kx=0, r_index; //'data' index
-	unsigned long nn[2]={L,L};
+	unsigned int nn[2]={L,L};
 
 	for(int r=0; r<L/2; r++){ //initialization
 		C[r]=S[r]=0.0;

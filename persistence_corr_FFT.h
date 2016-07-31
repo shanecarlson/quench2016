@@ -8,7 +8,6 @@ void record_persistence_corr(int par_sim, int par_pic){
 	double S[(int)(L/2)]; //structure factor of persistence lattice S(r)
 	double data[2*L*L]; //array that's transformed by FFT function 'fourn' 
 	int kx=0; //'data' index
-	int r_index;
 
 	for(int j=0; j<L; j++){
 		for(int i=0; i<L; i++){ //data is entered 'by row' (i indexes columns)
