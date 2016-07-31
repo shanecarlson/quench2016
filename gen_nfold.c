@@ -6,7 +6,6 @@
 #include <unistd.h>
 #include <time.h>
 
-//#include "critical_temperatures.h"
 #include "parameters.h"
 #include "filenames_T0.h"
 
@@ -16,8 +15,12 @@
 #include "domain_size_PBC_sq.h"
 
 #include "persistence.h"
+
+#include "fourn.h"
+#include "autocorrelation_by_FFT.h"
 #include "persistence_corr_FFT.h"
-#include "correlation_IM.h" // !
+#include "correlation_IM_FFT.h" // !
+
 
 #include "nfold_IM_Glauber.h" // !
 #include "class_PBC_sq.h"
@@ -74,7 +77,7 @@ int main(int argc, char* argv[]){
 
 		initialize_lattice_random_m0(); /*
 
-		initialize_lattice_up_w_prob(0.8); // !
+		initialize_lattice_up_w_prob(0.75); // !
 		P_add=1-exp(-2*B_c_ising); // !
 		for(int swp=0; swp<therm || calculate_magnetization()!=0; swp++){ // !
 			wolff_step();
@@ -86,10 +89,10 @@ int main(int argc, char* argv[]){
 
 		printf("thermalization complete\n");
 		fprintf(terminal, "thermalization complete\n");
+		record_correlation_fn_F(samples, 0);
 
 		// */
 
-		//record_correlation_fn(samples, 0);
 		if(sim==0)
 			plot_bool_lattice(s, L, 0, 0); // !
 
@@ -104,8 +107,6 @@ int main(int argc, char* argv[]){
 		pic_tic=1;
 		pic=1;
 
-		//printf("simulating...\n");
-		//fprintf(terminal, "simulating...\n");
 		while(tic<max_time && !blocked_state){
 
 			QN=calculate_QN();
@@ -141,7 +142,7 @@ int main(int argc, char* argv[]){
 					plot_int_lattice(p, L, sim, pic);
 					plot_int_lattice_01(p, L, sim, pic);
 				}
-				// record_correlation_fn(samples, pic);
+				//record_correlation_fn(samples, pic);
 				record_persistence_corr(samples, pic);
 				pic_tic*=pic_tic_mult;
 				pic++;

@@ -14,14 +14,10 @@ int main(int argc, char* argv[]){
 	char type_name[64];
 	int starting_pic;
 
-	printf("Enter 'c' for correlation length raw,\n'g' with magnetization subtracted,\n'm' for persistence mass,\n");
-	printf("'d' for persistence correlation,\n'f' for normalized persistence correlation: ");
+	printf("Enter 'c' for correlation length raw,\n'g' with magnetization subtracted,\n");
+	printf("'d' for persistence correlation,\n'f' for normalized persistence correlation:\n\n");
 	chooser=getchar();
-	if(chooser=='m'){
-		sprintf(type_name, "mass_");
-		starting_pic=1;
-	}
-	else if(chooser=='d'){
+	if(chooser=='d'){
 		sprintf(type_name, "pcorr_");
 		starting_pic=1;
 	}
@@ -54,8 +50,7 @@ int main(int argc, char* argv[]){
 	}
 
 	FILE *a;
-
-	if(chooser!='c' && chooser!='g'){
+	if(chooser!='c' && chooser!='g'){ //correlation function of spin lattice is only taken at the beginning of the simulation
 		a=fopen("num_pics.txt", "r");
 		fscanf(a, "%d", &num_pics);
 		fclose(a);
