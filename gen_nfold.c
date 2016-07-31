@@ -6,7 +6,7 @@
 #include <unistd.h>
 #include <time.h>
 
-#include "critical_temperatures.h"
+//#include "critical_temperatures.h"
 #include "parameters.h"
 #include "filenames_T0.h"
 
@@ -16,7 +16,7 @@
 #include "domain_size_PBC_sq.h"
 
 #include "persistence.h"
-#include "persistence_corr.h"
+#include "persistence_corr_FFT.h"
 #include "correlation_IM.h" // !
 
 #include "nfold_IM_Glauber.h" // !
@@ -72,8 +72,8 @@ int main(int argc, char* argv[]){
 		printf("sim %d of %d ", sim+1, samples);
 		fprintf(terminal, "sim %d of %d ", sim+1, samples);
 
-		//initialize_lattice_random_m0();
-		// /*
+		initialize_lattice_random_m0(); /*
+
 		initialize_lattice_up_w_prob(0.8); // !
 		P_add=1-exp(-2*B_c_ising); // !
 		for(int swp=0; swp<therm || calculate_magnetization()!=0; swp++){ // !
@@ -89,7 +89,7 @@ int main(int argc, char* argv[]){
 
 		// */
 
-		record_correlation_fn(samples, 0);
+		//record_correlation_fn(samples, 0);
 		if(sim==0)
 			plot_bool_lattice(s, L, 0, 0); // !
 
