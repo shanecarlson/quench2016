@@ -88,7 +88,7 @@ int main(int argc, char* argv[]){
 
 		printf("thermalization complete\n");
 		fprintf(terminal, "thermalization complete\n");
-		record_correlation_fn_F(samples, 0);
+		record_correlation_fn(samples, 0);
 
 		// */
 

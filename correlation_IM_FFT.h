@@ -6,8 +6,14 @@ void record_correlation_fn(int par_sim, int par_pic){
 	double m2=(double)calculate_magnetization()/((double)L*L); m2*=m2;
 	double C[(int)(L/2)];
 	double S[(int)(L/2)];
-	float data[2*L*L]; //array that's transformed by FFT function 'fourn' 
 	int kx=0; //'data' index
+
+	double* data = malloc( 2*L*L *sizeof(*data) ); //array that's transformed by FFT function 'fourn' 
+	if(data==0){
+		printf("allocation of 'data' failed\n");
+		free(data);
+		exit(1);
+	}
 
 	for(int j=0; j<L; j++){
 		for(int i=0; i<L; i++){ //data is entered 'by row' (i indexes columns)
@@ -18,6 +24,7 @@ void record_correlation_fn(int par_sim, int par_pic){
 	}
 
 	autocorrelation_FFT(data, C, S);
+	free(data); //free the memory used for the array 'data'
 
 	char name[64]; //filename for output
 

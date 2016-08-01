@@ -24,18 +24,15 @@
  * their own copy.
  */
 
-#define OP1() {stru[i+L/2][j+L/2]=data[kx]*data[kx]+data[kx+1]*data[kx+1]; \
-		data[kx]=stru[i+L/2][j+L/2]; \
+#define OP1() {stru[(i+L/2)+(j+L/2)*L] = data[kx]*data[kx]+data[kx+1]*data[kx+1]; \
+		data[kx]=stru[(i+L/2)+(j+L/2)*L]; \
 		data[kx+1]=0.0; \
 		kx+=2;}
 // data -> |data|^2
 
-#define OP2() {corr[i+L/2][j+L/2]=data[kx]; kx+=2;}
+#define OP2() {corr[(i+L/2)+(j+L/2)*L]=data[kx]; kx+=2;}
 
-void autocorrelation_FFT(float* data, double* C, double* S){
-
-	float stru[L][L]; //structure factor as a function of wavevector
-	float corr[L][L]; //correlation as a function of relative position vector
+void autocorrelation_FFT(double* data, double* C, double* S){
 	unsigned int vol[(int)(L/2)]; //total number of sites counted for r
 	int kx=0; //'data' index
 	int r_index;
@@ -46,7 +43,20 @@ void autocorrelation_FFT(float* data, double* C, double* S){
 		vol[r]=0;
 	}
 
-	fourn(data, nn, 2, 1);
+	fourn(data, nn, 2, 1); //forward FFT of 'data'
+
+	double* stru = malloc( L*L*sizeof(*stru)); //structure factor as a function of wavevector
+	if(stru==0){
+		printf("allocation of 'stru' failed\n");
+		free(stru);
+		exit(1);
+	}
+	double* corr = malloc( L*L*sizeof(*corr));  //correlation as a function of relative position vector
+	if(corr==0){
+		printf("allocation of 'corr' failed\n");
+		free(corr);
+		exit(1);
+	}
 
 	for(int j=0; j<L/2; j++){
 		for(int i=0; i<L/2; i++)
@@ -61,7 +71,7 @@ void autocorrelation_FFT(float* data, double* C, double* S){
 			OP1()
 	}
 
-	fourn(data, nn, 2, -1);
+	fourn(data, nn, 2, -1); //inverse FFT of 'data'
 
 	kx=0;
 	for(int j=0; j<L/2; j++){
@@ -77,31 +87,34 @@ void autocorrelation_FFT(float* data, double* C, double* S){
 			OP2()
 	}
 
-	S[0] = stru[0 +L/2][0 +L/2]; //origin
-	C[0] = corr[0 +L/2][0 +L/2];
+	S[0] = stru[(0 +L/2)+(0 +L/2)*L]; //origin
+	C[0] = corr[(0 +L/2)+(0 +L/2)*L];
 	vol[0]=1;
 
 	for(int r=1; r<L/2; r++){ //on-axis
-		S[r] += stru[0 +L/2][ r+L/2] + stru[ r+L/2][0 +L/2] 
-			  + stru[0 +L/2][-r+L/2] + stru[-r+L/2][0 +L/2];
-		C[r] += corr[0 +L/2][ r+L/2] + corr[ r+L/2][0 +L/2]
-			  + corr[0 +L/2][-r+L/2] + corr[-r+L/2][0 +L/2];
+		S[r] += stru[(0 +L/2)+( r+L/2)*L] + stru[( r+L/2)+(0 +L/2)*L] 
+			  + stru[(0 +L/2)+(-r+L/2)*L] + stru[(-r+L/2)+(0 +L/2)*L];
+		C[r] += corr[(0 +L/2)+( r+L/2)*L] + corr[( r+L/2)+(0 +L/2)*L]
+			  + corr[(0 +L/2)+(-r+L/2)*L] + corr[(-r+L/2)+(0 +L/2)*L];
 		vol[r]+=4;
 	}
 
 	for(int i=1; i<L/2; i++) //off-axis
 		for(int j=1; j<L/2; j++)
 			if( (r_index=(int)(sqrt(i*i+j*j)-0.5)+1) < L/2){
-				S[r_index] += stru[ i+L/2][j +L/2] + stru[ i+L/2][-j+L/2] 
-							+ stru[-i+L/2][j +L/2] + stru[-i+L/2][-j+L/2];
-				C[r_index] += corr[ i+L/2][j +L/2] + corr[ i+L/2][-j+L/2]
-							+ corr[-i+L/2][j +L/2] + corr[-i+L/2][-j+L/2];
+				S[r_index] += stru[( i+L/2)+(j +L/2)*L] + stru[( i+L/2)+(-j+L/2)*L] 
+							+ stru[(-i+L/2)+(j +L/2)*L] + stru[(-i+L/2)+(-j+L/2)*L];
+				C[r_index] += corr[( i+L/2)+(j +L/2)*L] + corr[( i+L/2)+(-j+L/2)*L]
+							+ corr[(-i+L/2)+(j +L/2)*L] + corr[(-i+L/2)+(-j+L/2)*L];
 				vol[r_index]+=4;
 			}
 
+	free(corr);
+	free(stru);
+
 	for(int r=0; r<L/2; r++){ //normalizes w.r.t. number of points that were counted
 		S[r]/=((double)vol[r]*L*L);
-		C[r]/=((double)vol[r]);
+		C[r]/=((double)vol[r]*L*L);
 	}
 
 	for(int r=1; r<L/2; r++) //normalizes such that C(0)=1

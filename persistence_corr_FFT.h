@@ -6,8 +6,14 @@ void record_persistence_corr(int par_sim, int par_pic){
 	double P=(double)calculate_persistence()/((double)L*L);
 	double C[(int)(L/2)]; //persistence correlation fn C(r)
 	double S[(int)(L/2)]; //structure factor of persistence lattice S(r)
-	float data[2*L*L]; //array that's transformed by FFT function 'fourn' 
 	int kx=0; //'data' index
+
+	double* data = malloc( 2*L*L *sizeof(*data) ); //array that's transformed by FFT function 'fourn' 
+	if(data==0){
+		printf("allocation of 'data' failed\n");
+		free(data);
+		exit(1);
+	}
 
 	for(int j=0; j<L; j++){
 		for(int i=0; i<L; i++){ //data is entered 'by row' (i indexes columns)
@@ -23,6 +29,7 @@ void record_persistence_corr(int par_sim, int par_pic){
 	}
 
 	autocorrelation_FFT(data, C, S);
+	free(data); //free the memory used for the array 'data'
 
 	char name[64]; //filename for output
 
