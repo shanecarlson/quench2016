@@ -17,7 +17,7 @@ void record_correlation_fn(int par_sim, int par_pic){
 		}
 	}
 
-	autocorrelation_FFT(data, C, S, 1, m2);
+	autocorrelation_FFT(data, C, S);
 
 	char name[64]; //filename for output
 

@@ -141,7 +141,7 @@ int main(int argc, char* argv[]){
 					plot_int_lattice(p, L, sim, pic);
 					plot_int_lattice_01(p, L, sim, pic);
 				}
-				//record_correlation_fn(samples, pic);
+				record_correlation_fn(samples, pic);
 				record_persistence_corr(samples, pic);
 				pic_tic*=pic_tic_mult;
 				pic++;

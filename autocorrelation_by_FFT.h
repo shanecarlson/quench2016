@@ -25,19 +25,20 @@
  */
 
 #define OP1() {stru[i+L/2][j+L/2]=data[kx]*data[kx]+data[kx+1]*data[kx+1]; \
-		data[kx]*=data[kx]; \
-		data[kx+1]*=data[kx+1]; \
+		data[kx]=stru[i+L/2][j+L/2]; \
+		data[kx+1]=0.0; \
 		kx+=2;}
 // data -> |data|^2
 
 #define OP2() {corr[i+L/2][j+L/2]=data[kx]; kx+=2;}
 
-void autocorrelation_FFT(float data[], double C[], double S[], double C0, double C1){
+void autocorrelation_FFT(float* data, double* C, double* S){
 
 	float stru[L][L]; //structure factor as a function of wavevector
 	float corr[L][L]; //correlation as a function of relative position vector
 	unsigned int vol[(int)(L/2)]; //total number of sites counted for r
-	int kx=0, r_index; //'data' index
+	int kx=0; //'data' index
+	int r_index;
 	unsigned int nn[2]={L,L};
 
 	for(int r=0; r<L/2; r++){ //initialization
@@ -103,10 +104,7 @@ void autocorrelation_FFT(float data[], double C[], double S[], double C0, double
 		C[r]/=((double)vol[r]);
 	}
 
-	for(int r=1; r<L/2; r++)
+	for(int r=1; r<L/2; r++) //normalizes such that C(0)=1
 		C[r]/=C[0];
 	C[0]=1;
-
-	for(int r=0; r<L/2; r++)
-		C[r]=(C0+C1)*C[r]-C1;
 }

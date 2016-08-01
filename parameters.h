@@ -5,8 +5,8 @@ int L=L_max; //number of spins along a side
 #define Nb 1000 //number of "blocking" blocks
 #define nb 1000 //blocking block-length
 #define N (Nb*nb) //number of sweeps
-#define samples 4 //number of temperatures we simulate over
-#define therm 20000 //thermalization (in sweeps)
+#define samples 10 //number of temperatures we simulate over
+#define therm 10000 //thermalization (in sweeps)
 
 #define B_c_potts (log(1+sqrt(q))) //$\beta_c$ for Potts model
 #define B_c_ising 0.4406867935 //$\beta_c$ for Ising model

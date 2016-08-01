@@ -22,11 +22,7 @@ void record_persistence_corr(int par_sim, int par_pic){
 		}
 	}
 
-	autocorrelation_FFT(data, C, S, 1, P);
-
-	for(int r=1; r<L/2; r++)
-		C[r]/=C[0];
-	C[0]=1;
+	autocorrelation_FFT(data, C, S);
 
 	char name[64]; //filename for output
 
