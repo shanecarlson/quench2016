@@ -118,8 +118,8 @@ int main(int argc, char* argv[]){
 					tic*=tic_mult;
 					t_ind++;
 				}
-				//printf("tic at %3.3f \n", tic);
-				//fprintf(terminal, "tic at %3.3f \n", tic);
+				printf("tic at %3.3f \n", tic);
+				fprintf(terminal, "tic at %3.3f \n", tic);
 				calculate_energy();
 				fprintf(rts, "%d\t%.20f\t%d\t%.20f\t%.20f\t%.20f\t%.20f\n",
 					t_ind,
