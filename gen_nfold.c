@@ -19,7 +19,7 @@
 #include "fourn.h"
 #include "autocorrelation_by_FFT.h"
 #include "persistence_corr_FFT.h"
-#include "correlation_IM_FFT.h" // !
+//#include "correlation_IM_FFT.h" // !
 
 #include "nfold_IM_Glauber.h" // !
 #include "class_PBC_sq.h"
@@ -118,8 +118,8 @@ int main(int argc, char* argv[]){
 					tic*=tic_mult;
 					t_ind++;
 				}
-				printf("tic at %3.3f \n", tic);
-				fprintf(terminal, "tic at %3.3f \n", tic);
+				//printf("tic at %3.3f \n", tic);
+				//fprintf(terminal, "tic at %3.3f \n", tic);
 				calculate_energy();
 				fprintf(rts, "%d\t%.20f\t%d\t%.20f\t%.20f\t%.20f\t%.20f\n",
 					t_ind,
@@ -141,7 +141,7 @@ int main(int argc, char* argv[]){
 					plot_int_lattice(p, L, sim, pic);
 					plot_int_lattice_01(p, L, sim, pic);
 				}
-				record_correlation_fn(samples, pic);
+				//record_correlation_fn(samples, pic);
 				record_persistence_corr(samples, pic);
 				pic_tic*=pic_tic_mult;
 				pic++;
