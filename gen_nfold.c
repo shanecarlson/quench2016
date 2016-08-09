@@ -9,8 +9,8 @@
 #include "parameters.h"
 #include "filenames_T0.h"
 
-#include "IM.h" // !
-//#include "Wolff_IM_PBC_sq.h" // !
+#include "Potts.h" // !
+//#include "Wolff_Potts_PBC_sq.h" // !
 #include "energies_PBC_sq.h"
 #include "domain_size_PBC_sq.h"
 
@@ -19,9 +19,9 @@
 #include "fourn.h"
 #include "autocorrelation_by_FFT.h"
 #include "persistence_corr_FFT.h"
-//#include "correlation_IM_FFT.h" // !
+//#include "correlation_IM_FFT.h" // ! <<<
 
-#include "nfold_IM_Glauber.h" // !
+#include "nfold_Potts_heatbath.h" // !
 #include "class_PBC_sq.h"
 #include "nfold.h"
 
@@ -93,7 +93,7 @@ int main(int argc, char* argv[]){
 		// */
 
 		if(sim==0)
-			plot_bool_lattice(s, L, 0, 0); // !
+			plot_int_lattice(s, L, 0, 0); // !
 
 		reset_persistence_lattice();
 		update_all_classes();
@@ -128,7 +128,7 @@ int main(int argc, char* argv[]){
 					calculate_avg_domain_size(),
 					(double)calculate_persistence()/(L*L),
 					(double)members[0]/(L*L),
-					(double)calculate_magnetization()/(L*L) // !
+					(double)calculate_magnetization(first_top_color())/(L*L) // !
 				); //timeseries
 				tic*=tic_mult;
 				t_ind++;
@@ -137,7 +137,7 @@ int main(int argc, char* argv[]){
 				//printf("\tpic at %3.3f \n", pic_tic);
 				//fprintf(terminal, "\tpic at %3.3f \n", pic_tic);
 				if(sim==0){
-					plot_bool_lattice(s, L, sim, pic); // !
+					plot_int_lattice(s, L, sim, pic); // !
 					plot_int_lattice(p, L, sim, pic);
 					plot_int_lattice_01(p, L, sim, pic);
 				}
@@ -150,7 +150,7 @@ int main(int argc, char* argv[]){
 		}
 
 		if(blocked_state){
-			M=calculate_magnetization();
+			M=calculate_magnetization(first_top_color()); // !
 			if(M==L*L || M==-L*L){
 				printf("ended at a global minimum at t = %.2f\n", t);
 				fprintf(terminal, "ended at a global minimum at t = %.2f\n", t);
@@ -168,7 +168,7 @@ int main(int argc, char* argv[]){
 		fprintf(rts, "\n\n");
 
 		if(sim==0){
-			plot_bool_lattice(s, L, sim, pic); // !
+			plot_int_lattice(s, L, sim, pic); // !
 			plot_int_lattice(p, L, sim, pic);
 			plot_int_lattice_01(p, L, sim, pic);
 		}
