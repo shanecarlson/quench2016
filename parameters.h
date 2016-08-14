@@ -16,6 +16,6 @@ int L=L_max; //number of spins along a side
 
 #define tic_start 0.1 //first time where quench data is recorded
 #define tic_mult 1.2 //tic multiplier: tic$_{i+1}=$ tic$_{i}\cdot$ tic_mult
-#define max_time 50000 //maximum time
+#define max_time 60000 //maximum time
 
 char headersID[8]="PSHI"; //<BOUNDARY><LATTICE><ALG><T_i>_
