@@ -9,7 +9,7 @@
 #include "parameters.h"
 #include "filenames_T0.h"
 
-#include "IM.h" // Potts/Ising
+#include "Potts.h" // Potts/Ising
 //#include "Wolff_Potts_PBC_sq.h" // Potts/Ising
 #include "energies_PBC_sq.h"
 #include "domain_size_PBC_sq.h"
@@ -19,9 +19,9 @@
 #include "fourn.h"
 #include "autocorrelation_by_FFT.h"
 #include "persistence_corr_FFT.h"
-#include "correlation_IM_FFT.h" // Potts/Ising
+//#include "correlation_IM_FFT.h" // Potts/Ising
 
-#include "nfold_IM_Glauber.h" // Potts/Ising
+#include "nfold_Potts_heatbath.h" // Potts/Ising
 #include "class_PBC_sq.h"
 #include "nfold.h"
 
@@ -96,10 +96,10 @@ int main(int argc, char* argv[]){
 		fprintf(terminal, "thermalization complete\n");
 		// */
 
-		record_correlation_fn(samples, 0);
+		//record_correlation_fn(samples, 0);
 
 		if(sim==0)
-			plot_bool_lattice(s, L, 0, 0); // Potts/Ising
+			plot_int_lattice(s, L, 0, 0); // Potts/Ising
 
 		reset_persistence_lattice();
 		update_all_classes();
@@ -141,7 +141,7 @@ int main(int argc, char* argv[]){
 					calculate_avg_domain_size(),
 					(double)calculate_persistence()/(L*L),
 					(double)members[0]/(L*L),
-					(double)calculate_magnetization()/(L*L) // Potts/Ising
+					(double)calculate_magnetization( first_top_color() )/(L*L) // Potts/Ising
 				); //timeseries
 				fprintf(tmr, "\ttic print: %f seconds\n", (double)(time(NULL) - pstart)); //process timer
 				fclose(tmr); //---
@@ -155,14 +155,14 @@ int main(int argc, char* argv[]){
 				if(sim==0){
 					tmr=fopen("tictimer.txt", "a"); //---
 					pstart=time(NULL); //process timer
-					plot_bool_lattice(s, L, sim, pic); // Potts/Ising
+					plot_int_lattice(s, L, sim, pic); // Potts/Ising
 					plot_int_lattice(p, L, sim, pic);
 					plot_int_lattice_01(p, L, sim, pic);
 					fprintf(tmr, "\tlat plots: %f seconds\n", (double)(time(NULL) - pstart)); //process timer
 					fclose(tmr); //---
 				}
 				tmr=fopen("tictimer.txt", "a"); //---
-				record_correlation_fn(samples, pic);
+				//record_correlation_fn(samples, pic);
 				record_persistence_corr(samples, pic);
 				fprintf(tmr, "\tcorrelations: %f seconds\n", (double)(time(NULL) - pstart)); //process timer
 				fclose(tmr); //---
@@ -174,7 +174,7 @@ int main(int argc, char* argv[]){
 		}
 
 		if(blocked_state){
-			M=calculate_magnetization(); // Potts/Ising
+			M=calculate_magnetization( first_top_color() ); // Potts/Ising
 			if(M==L*L || M==-L*L){
 				printf("ended at a global minimum at t = %.2f\n", t);
 				fprintf(terminal, "ended at a global minimum at t = %.2f\n", t);
@@ -192,7 +192,7 @@ int main(int argc, char* argv[]){
 		fprintf(rts, "\n\n");
 
 		if(sim==0){
-			plot_bool_lattice(s, L, sim, pic); // Potts/Ising
+			plot_int_lattice(s, L, sim, pic); // Potts/Ising
 			plot_int_lattice(p, L, sim, pic);
 			plot_int_lattice_01(p, L, sim, pic);
 		}

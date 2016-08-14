@@ -50,7 +50,7 @@ void initialize_lattice_to_middle(){
 
 void initialize_lattice_random_m0(){
 	int startpop=(int)(L*L/(float)q);
-	int pop[q];
+	int pop[q], i, j;
 
 	for(int clr=0; clr<q; clr++)
 		pop[clr]=startpop;
@@ -58,8 +58,8 @@ void initialize_lattice_random_m0(){
 	for(int clr=0; clr<q && startpop*q+clr+1<L*L; clr++)
 		pop[clr]++;
 
-	for(int i=0;i<L;i++)
-		for(int j=0;j<L;j++)
+	for(i=0;i<L;i++)
+		for(j=0;j<L;j++)
 			s[i][j]=0;
 
 	for(int clr=1; clr<q; clr++){
