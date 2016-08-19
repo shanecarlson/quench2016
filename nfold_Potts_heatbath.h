@@ -11,49 +11,48 @@ int members[n_fold]; //stores the number of members of each class
 double p_flip[n_fold]; //stores the transition probability of each class
 bool blocked_state; //1 if state is blocked, 0 if not
 
-void calculate_class(int i, int j){
-	int EC_of[q_max]; //proposed energy contribution for color s[i][j]=clr
-	int ECmin=0; //minimum possible energy contr.
-	int degeneracy=0; //number of colors with ECmin
+void calculate_class(int i, int j){ //revamp in terms of "nearest_neighbors"
+	int count[q]; //number of nn w color clr
+	for(int clr=0; clr<q; clr++)
+		count[clr]=0;
+	int max_count=0, deg=0; //# of nn with top color, degeneracy of groups
 
-	for(s_proposed=0; s_proposed<q; s_proposed++){
-		proposed_energy_contribution(i, j);
-		EC_of[s_proposed]=EC;
-		if(EC<ECmin)
-			ECmin=EC;
-	}
+	nearest_neighbors(i, j, count);
+
+	for(int clr=0; clr<q; clr++)
+		if(count[clr]>max_count)
+			max_count=count[l]; //finds max_count
 
 	dc[i][j]=0;
-	for(int clr=0; clr<q; clr++){
-		if(EC_of[clr] == ECmin){
-			degeneracy++;
-			dc[i][j]+=1<<clr;
+	for(int clr=0; clr<q; clr++)
+		if(count[clr]==max_count){
+			deg++; //finds degeneracy at
+			dc[i][j]+=1<<clr; //records local top colors in dc
 		}
-	}
-	dc[i][j]+=degeneracy<<16; //therefore q should be kept less than ~16
+	dc[i][j]+=deg<<16; //records degeneracy in dc (keep q < ~16)
 
-	if(EC_of[s[i][j]] == ECmin){
-		if(degeneracy == 1)
+	if(count[s[i][j]] == max_count){
+		if(deg == 1)
 			sc[i][j]=0; //stuck
 		else
-			sc[i][j]=degeneracy;
+			sc[i][j]=deg;
 	}
-	else //(EC_of[s[i][j]] > ECmin)
+	else //there is a more dominant color near i,j
 		sc[i][j]=1; //must flip
 }
 
-void flip_spin(int i, int j){ 
+void flip_spin(int i, int j){
 	int stop;
 	int count=0;
-	int degeneracy = dc[i][j]>>16;
+	int deg = dc[i][j]>>16;
 
 	if(sc[i][j]==1) //not at min energy
-		stop=(int)(drand48()*degeneracy)+1; //integer 1 to degeneracy
+		stop=(int)(drand48()*deg)+1; //integer 1 to degeneracy
 	if(sc[i][j]>1) //at min, but there is degeneracy
-		stop=(int)(drand48()*(degeneracy-1))+1; //integer 1 to degeneracy-1 
+		stop=(int)(drand48()*(deg-1))+1; //integer 1 to degeneracy-1 
 
 	for(int clr=0; clr<q && count<stop; clr++){
-		if( dc[i][j]&1<<clr && clr!=s[i][j] ){
+		if( dc[i][j]&1<<clr && clr!=s[i][j] ){ // if clr is dominant && it's a new color
 			count++;
 			if(count==stop)
 				s[i][j]=clr;

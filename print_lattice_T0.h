@@ -22,8 +22,6 @@ void plot_bool_lattice(bool latt[L_max][L_max], int par_L, double par_sim, doubl
 void plot_int_lattice_01(int latt[L_max][L_max], int par_L, double par_sim, double par_pic){
 	char name[64]; //filename for output
 
-	if(latt==sc)
-		sprintf(name, "lat_stuck_01_");
 	if(latt==p)
 		sprintf(name, "lat_pers_01_");
 

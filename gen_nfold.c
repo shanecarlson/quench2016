@@ -119,7 +119,7 @@ int main(int argc, char* argv[]){
 			QN=calculate_QN();
 			t -= log(drand48())/QN; //time update for FOLLOWING step
 			if(t > tic){
-				printf("tic %d took %f seconds and %llu steps\n", t_ind, (double)(time(NULL) - ticstart), step_count); //process timer
+				//printf("tic %d took %f seconds and %llu steps\n", t_ind, (double)(time(NULL) - ticstart), step_count); //process timer
 
 				tmr=fopen("tictimer.txt", "a"); //---
 				fprintf(tmr, "tic %d took %f seconds and %llu steps\n", t_ind, (double)(time(NULL) - ticstart), step_count); //process timer

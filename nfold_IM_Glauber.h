@@ -11,11 +11,13 @@ bool blocked_state; //1 if state is blocked, 0 if not
 static inline void flip_spin(int i, int j){ s[i][j]^=1; }
 
 void calculate_class(int i, int j){
+	int count[2]={0,0};
+	bool s0=s[i][j];
 
-	energy_contribution(i, j);
-	if(EC<0){ sc[i][j]=0; } //stuck
-	if(EC==0){ sc[i][j]=1; } //equal energy
-	if(EC>0){ sc[i][j]=2; } //must flip
+	nearest_neighbors(i, j, count);
+	if( count[s0] > count[!s0] ){ sc[i][j]=2; } //stuck
+	else if( count[s0] == count[!s0] ){ sc[i][j]=1; } //equal energy
+	else{ sc[i][j]=2; } //must flip
 }
 
 void set_flip_probabilities(){

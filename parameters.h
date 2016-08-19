@@ -1,11 +1,11 @@
-#define q_max 4 //MAX number of states of the Potts model
+#define q_max 3 //MAX number of states of the Potts model
 int q=q_max; //number of states of the Potts model
-#define L_max 512 //MAX number of spins along a side; for array init
+#define L_max 128 //MAX number of spins along a side; for array init
 int L=L_max; //number of spins along a side
 #define Nb 1000 //number of "blocking" blocks
 #define nb 1000 //blocking block-length
 #define N (Nb*nb) //number of sweeps
-#define samples 20 //number of temperatures we simulate over
+#define samples 1 //number of temperatures we simulate over
 #define therm 0 //thermalization (in sweeps)
 
 #define B_c_potts (log(1+sqrt(q))) //$\beta_c$ for Potts model
@@ -16,6 +16,6 @@ int L=L_max; //number of spins along a side
 
 #define tic_start 0.1 //first time where quench data is recorded
 #define tic_mult 1.2 //tic multiplier: tic$_{i+1}=$ tic$_{i}\cdot$ tic_mult
-#define max_time 60000 //maximum time
+#define max_time 40000 //maximum time
 
 char headersID[8]="PSHI"; //<BOUNDARY><LATTICE><ALG><T_i>_
