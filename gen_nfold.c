@@ -11,6 +11,7 @@
 
 #include "Potts.h" // Potts/Ising
 //#include "Wolff_Potts_PBC_sq.h" // Potts/Ising
+#include "neighbors_PBC_sq.h"
 #include "energies_PBC_sq.h"
 #include "domain_size_PBC_sq.h"
 
@@ -22,7 +23,8 @@
 //#include "correlation_IM_FFT.h" // Potts/Ising
 
 #include "nfold_Potts_heatbath.h" // Potts/Ising
-#include "class_PBC_sq.h"
+#include "class_Potts_PBC_sq.h"
+#include "members_PBC_sq.h"
 #include "nfold.h"
 
 #include "print_lattice_T0.h"
@@ -119,7 +121,7 @@ int main(int argc, char* argv[]){
 			QN=calculate_QN();
 			t -= log(drand48())/QN; //time update for FOLLOWING step
 			if(t > tic){
-				//printf("tic %d took %f seconds and %llu steps\n", t_ind, (double)(time(NULL) - ticstart), step_count); //process timer
+				printf("tic %d took %f seconds and %llu steps\n", t_ind, (double)(time(NULL) - ticstart), step_count); //process timer
 
 				tmr=fopen("tictimer.txt", "a"); //---
 				fprintf(tmr, "tic %d took %f seconds and %llu steps\n", t_ind, (double)(time(NULL) - ticstart), step_count); //process timer

@@ -21,7 +21,7 @@ void calculate_class(int i, int j){ //revamp in terms of "nearest_neighbors"
 
 	for(int clr=0; clr<q; clr++)
 		if(count[clr]>max_count)
-			max_count=count[l]; //finds max_count
+			max_count=count[clr]; //finds max_count
 
 	dc[i][j]=0;
 	for(int clr=0; clr<q; clr++)
