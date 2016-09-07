@@ -91,6 +91,7 @@ int main(int argc, char* argv[]){
 			if(sim==0){
 				calculate_energy();
 				fprintf(tts, "%d\t%f\n", E, calculate_avg_domain_size());
+				printf("cs = %d\n", color_count_spread());
 			}
 		}
 
