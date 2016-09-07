@@ -113,7 +113,7 @@ int calculate_magnetization(int resp_color){
 	return M;
 }
 
-int colors_even(int tol){
+int color_count_spread(){
 	int count[q];
 	int max_count=0;
 	int min_count=L*L;
@@ -132,7 +132,5 @@ int colors_even(int tol){
 			min_count=count[col];
 	}
 
-	if(max_count-min_count<=tol)
-		return 1;
-	return 0;
+	return max_count-min_count;
 }
