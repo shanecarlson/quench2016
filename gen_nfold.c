@@ -10,7 +10,7 @@
 #include "filenames_T0.h"
 
 #include "Potts.h" // Potts/Ising
-//#include "Wolff_Potts_PBC_sq.h" // Potts/Ising
+#include "Wolff_Potts_PBC_sq.h" // Potts/Ising
 #include "neighbors_PBC_sq.h"
 #include "energies_PBC_sq.h"
 #include "domain_size_PBC_sq.h"
@@ -82,11 +82,11 @@ int main(int argc, char* argv[]){
 		printf("sim %d of %d\n", sim+1, samples);
 		fprintf(terminal, "sim %d of %d\n", sim+1, samples);
 
-		initialize_lattice_random_m0(); /*
+		//initialize_lattice_random_m0(); /*
 
-		initialize_lattice_up_w_prob(0.75); // Potts/Ising
-		P_add=1-exp(-2*B_c_ising); // Potts/Ising
-		for(int swp=0; swp<therm || calculate_magnetization()!=0; swp++){ // Potts/Ising
+		initialize_lattice_to_middle(); // Potts/Ising
+		P_add=P_add_c_Potts; // Potts/Ising
+		for(int swp=0; swp<therm || colors_even(1)==0; swp++){ // Potts/Ising
 			wolff_step();
 			if(sim==0){
 				calculate_energy();
@@ -106,7 +106,6 @@ int main(int argc, char* argv[]){
 		reset_persistence_lattice();
 		update_all_classes();
 		count_all_members();
-		//create_chains(); // !*
 
 		blocked_state=0;
 		t=0.0;
@@ -121,7 +120,7 @@ int main(int argc, char* argv[]){
 			QN=calculate_QN();
 			t -= log(drand48())/QN; //time update for FOLLOWING step
 			if(t > tic){
-				printf("tic %d took %f seconds and %llu steps\n", t_ind, (double)(time(NULL) - ticstart), step_count); //process timer
+				//printf("tic %d took %f seconds and %llu steps\n", t_ind, (double)(time(NULL) - ticstart), step_count); //process timer
 
 				tmr=fopen("tictimer.txt", "a"); //---
 				fprintf(tmr, "tic %d took %f seconds and %llu steps\n", t_ind, (double)(time(NULL) - ticstart), step_count); //process timer
