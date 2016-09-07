@@ -83,6 +83,7 @@ void initialize_lattice_random(){
 int first_top_color(){
 	int count[q];
 	int max_count=0;
+	int top=-1;
 
 	for(int col=0; col<q; col++)
 		count[col]=0;
@@ -95,9 +96,11 @@ int first_top_color(){
 		if(count[col]>max_count)
 			max_count=count[col];
 
-	for(int col=0; col<q; col++)
+	for(int col=0; col<q && top==-1; col++)
 		if(count[col]==max_count)
-			return col;
+			top=col;
+
+	return top;
 }
 
 
@@ -108,4 +111,28 @@ int calculate_magnetization(int resp_color){
 		for(int j=0;j<L;j++)
 			M += s[i][j]==resp_color ? 1 : -1;
 	return M;
+}
+
+int colors_even(int tol){
+	int count[q];
+	int max_count=0;
+	int min_count=L*L;
+
+	for(int col=0; col<q; col++)
+		count[col]=0;
+
+	for(int i=0;i<L;i++)
+		for(int j=0;j<L;j++)
+			count[s[i][j]]++;
+
+	for(int col=0; col<q; col++){
+		if(count[col]>max_count)
+			max_count=count[col];
+		if(count[col]<min_count)
+			min_count=count[col];
+	}
+
+	if(max_count-min_count<=tol)
+		return 1;
+	return 0;
 }
