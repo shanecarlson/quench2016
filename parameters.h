@@ -1,4 +1,4 @@
-#define q_max 5 //MAX number of states of the Potts model
+#define q_max 2 //MAX number of states of the Potts model
 int q=q_max; //number of states of the Potts model
 #define L_max 512 //MAX number of spins along a side; for array init
 int L=L_max; //number of spins along a side
@@ -18,4 +18,4 @@ int L=L_max; //number of spins along a side
 #define tic_mult 1.2 //tic multiplier: tic$_{i+1}=$ tic$_{i}\cdot$ tic_mult
 #define max_time 80000 //maximum time
 
-char headersID[8]="PSHCm"; //<BOUNDARY><LATTICE><ALG><T_i>_
+char headersID[8]="PSGC3"; //<BOUNDARY><LATTICE><ALG><T_i>_
