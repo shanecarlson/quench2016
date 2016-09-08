@@ -86,12 +86,11 @@ int main(int argc, char* argv[]){
 
 		initialize_lattice_to_middle(); // Potts/Ising
 		P_add=P_add_c_Potts; // Potts/Ising
-		for(int swp=0; swp<therm || color_count_spread()>1; swp++){ // Potts/Ising
+		for(int swp=0; swp<therm; swp++){ // Potts/Ising
 			wolff_step();
 			if(sim==0){
 				calculate_energy();
 				fprintf(tts, "%d\t%f\n", E, calculate_avg_domain_size());
-				printf("cs = %d\n", color_count_spread());
 			}
 		}
 

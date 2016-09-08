@@ -1,4 +1,4 @@
-#define q_max 4 //MAX number of states of the Potts model
+#define q_max 5 //MAX number of states of the Potts model
 int q=q_max; //number of states of the Potts model
 #define L_max 512 //MAX number of spins along a side; for array init
 int L=L_max; //number of spins along a side

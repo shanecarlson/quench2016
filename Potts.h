@@ -112,25 +112,3 @@ int calculate_magnetization(int resp_color){
 			M += s[i][j]==resp_color ? 1 : -1;
 	return M;
 }
-
-int color_count_spread(){
-	int count[q];
-	int max_count=0;
-	int min_count=L*L;
-
-	for(int col=0; col<q; col++)
-		count[col]=0;
-
-	for(int i=0;i<L;i++)
-		for(int j=0;j<L;j++)
-			count[s[i][j]]++;
-
-	for(int col=0; col<q; col++){
-		if(count[col]>max_count)
-			max_count=count[col];
-		if(count[col]<min_count)
-			min_count=count[col];
-	}
-
-	return max_count-min_count;
-}
