@@ -10,13 +10,20 @@ bool blocked_state; //1 if state is blocked, 0 if not
 
 static inline void flip_spin(int i, int j){ s[i][j]^=1; }
 
+static inline int not(int s0){
+	if(s0==0)
+		return 1;
+	else
+		return 0;
+};
+
 void calculate_class(int i, int j){
 	int count[2]={0,0};
-	bool s0=s[i][j];
+	int s0=(int)s[i][j];
 
 	nearest_neighbors(i, j, count);
-	if( count[s0] > count[!s0] ){ sc[i][j]=2; } //stuck
-	else if( count[s0] == count[!s0] ){ sc[i][j]=1; } //equal energy
+	if( count[s0] > count[not(s0)] ){ sc[i][j]=2; } //stuck
+	else if( count[s0] == count[not(s0)] ){ sc[i][j]=1; } //equal energy
 	else{ sc[i][j]=2; } //must flip
 }
 
